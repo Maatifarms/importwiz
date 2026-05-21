@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EximHub — The Importer's Trusted Supply Partner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #0057FF;
+      --blue-dark: #003FBB;
+      --blue-soft: #EEF3FF;
+      --gold: #C9A84C;
+      --gold-light: #FFF8E7;
+      --green: #00B86B;
+      --green-soft: #E6F9F1;
+      --dark: #0B0E1A;
+      --mid: #374151;
+      --gray: #6B7280;
+      --border: #E5E7EB;
+      --light: #F7F8FC;
+      --white: #FFFFFF;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 68px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), #4F8EFF);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 900; font-size: 1.1rem; letter-spacing: -1px;
+    }
+    .logo-text { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
+    .logo-text span { color: var(--blue); }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--gray); font-weight: 500; font-size: 0.9rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-flag { font-size: 0.82rem; color: var(--gray); display: flex; align-items: center; gap: 5px; }
+    .btn-nav {
+      padding: 9px 22px; background: var(--blue); border-radius: 8px;
+      color: white; font-weight: 600; font-size: 0.88rem;
+      text-decoration: none; transition: background .2s;
+    }
+    .btn-nav:hover { background: var(--blue-dark); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      padding: 120px 6% 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      background: #FAFBFF;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 800px 600px at 70% 40%, rgba(0,87,255,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-light); border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 50px; padding: 7px 18px;
+      font-size: 0.82rem; font-weight: 600; color: #8B6914;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 900; line-height: 1.12; color: var(--dark);
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue) 0%, #6FA8FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem; color: var(--gray); line-height: 1.75;
+      max-width: 500px; margin-bottom: 40px;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+    .btn-primary {
+      padding: 15px 32px; background: var(--blue); border-radius: 10px;
+      color: white; font-weight: 700; font-size: 1rem; text-decoration: none;
+      box-shadow: 0 6px 24px rgba(0,87,255,0.28);
+      transition: all .2s; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); }
+    .btn-outline {
+      padding: 15px 32px; border: 2px solid var(--border); border-radius: 10px;
+      color: var(--dark); font-weight: 700; font-size: 1rem; text-decoration: none;
+      transition: all .2s; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+    .trust-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 0.84rem; color: var(--gray); }
+    .trust-icon { font-size: 1rem; }
+
+    /* Hero product preview */
+    .hero-right { position: relative; z-index: 1; }
+    .product-showcase {
+      background: white; border-radius: 24px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,87,255,0.1), 0 4px 16px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .showcase-header {
+      background: var(--dark); padding: 14px 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dot-red, .dot-yellow, .dot-green {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+    .showcase-title { color: rgba(255,255,255,0.7); font-size: 0.78rem; margin-left: auto; }
+
+    .showcase-product {
+      padding: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .product-img-area {
+      background: linear-gradient(145deg, #F0F4FF, #E8EEFF);
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 24px; font-size: 5rem;
+      min-height: 240px;
+    }
+    .product-info { padding: 28px 24px; }
+    .product-tag {
+      display: inline-block;
+      background: var(--green-soft); color: var(--green);
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; padding: 4px 10px; border-radius: 50px;
+      margin-bottom: 12px;
+    }
+    .product-name { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+    .product-spec { font-size: 0.78rem; color: var(--gray); margin-bottom: 14px; line-height: 1.6; }
+    .product-badges { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .p-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.75rem; color: var(--mid); font-weight: 500;
+    }
+    .p-badge .bi { font-size: 0.85rem; }
+    .product-cta {
+      width: 100%; padding: 10px; background: var(--blue); color: white;
+      border: none; border-radius: 8px; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; font-family: inherit;
+    }
+
+    .showcase-footer {
+      background: var(--light); padding: 12px 20px;
+      display: flex; gap: 16px;
+    }
+    .sf-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.76rem; color: var(--gray); font-weight: 500;
+    }
+
+    /* ─── PAIN POINTS ─── */
+    .pain-section {
+      padding: 80px 6%;
+      background: var(--dark);
+      color: white;
+    }
+    .pain-label {
+      font-size: 0.78rem; font-weight: 700; color: var(--gold);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .pain-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800;
+      margin-bottom: 12px; max-width: 600px;
+    }
+    .pain-sub { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 56px; max-width: 520px; }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .pain-item {
+      padding: 36px 32px;
+      background: #12172A;
+      transition: background .25s;
+    }
+    .pain-item:hover { background: #1A2038; }
+    .pain-problem {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .cross { color: #FF4D4D; font-size: 1.1rem; margin-top: 1px; flex-shrink: 0; }
+    .pain-q { font-size: 0.92rem; color: rgba(255,255,255,0.55); font-style: italic; line-height: 1.5; }
+    .pain-arrow { color: rgba(255,255,255,0.15); font-size: 1.2rem; margin-bottom: 12px; }
+    .pain-solution {
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .check-green { color: var(--green); font-size: 1.1rem; margin-top: 1px; flex-shrink: 0; }
+    .pain-ans { font-size: 0.92rem; color: rgba(255,255,255,0.9); font-weight: 600; line-height: 1.5; }
+
+    /* ─── SECTIONS common ─── */
+    .section { padding: 90px 6%; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800;
+      color: var(--dark); margin-bottom: 14px;
+    }
+    .section-sub { font-size: 1rem; color: var(--gray); max-width: 520px; line-height: 1.7; }
+    .section-header { margin-bottom: 56px; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-sub { margin: 0 auto; }
+
+    /* ─── PRODUCTS ─── */
+    .products-section { background: var(--light); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .prod-card {
+      background: white; border-radius: var(--radius);
+      overflow: hidden; border: 1.5px solid var(--border);
+      transition: all .25s; cursor: pointer;
+    }
+    .prod-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 12px 40px rgba(0,87,255,0.1);
+      transform: translateY(-4px);
+    }
+    .prod-img {
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4.5rem; position: relative;
+    }
+    .prod-img.bg1 { background: linear-gradient(145deg, #EEF3FF, #DCE8FF); }
+    .prod-img.bg2 { background: linear-gradient(145deg, #FFF8E7, #FFEDBA); }
+    .prod-img.bg3 { background: linear-gradient(145deg, #E6F9F1, #C6EFD9); }
+    .prod-img.bg4 { background: linear-gradient(145deg, #FFF0F0, #FFD6D6); }
+    .prod-img.bg5 { background: linear-gradient(145deg, #F3EEFF, #E0D0FF); }
+    .prod-img.bg6 { background: linear-gradient(145deg, #E8F8FF, #CCE9FF); }
+
+    .cert-strip {
+      position: absolute; bottom: 10px; right: 10px;
+      display: flex; gap: 4px;
+    }
+    .cert-pill {
+      background: white; border-radius: 50px;
+      padding: 3px 8px; font-size: 0.65rem; font-weight: 700;
+      color: var(--mid); border: 1px solid var(--border);
+    }
+
+    .prod-body { padding: 20px; }
+    .prod-cat { font-size: 0.72rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .prod-name { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+    .prod-spec { font-size: 0.8rem; color: var(--gray); line-height: 1.6; margin-bottom: 14px; }
+    .prod-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .prod-moq { font-size: 0.78rem; color: var(--gray); }
+    .prod-moq strong { color: var(--dark); }
+    .prod-action {
+      padding: 7px 16px; background: var(--blue-soft); color: var(--blue);
+      border-radius: 7px; font-size: 0.8rem; font-weight: 700;
+      text-decoration: none; transition: all .2s;
+    }
+    .prod-action:hover { background: var(--blue); color: white; }
+
+    /* ─── QUALITY ─── */
+    .quality-section {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .quality-imgs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; position: relative;
+    }
+    .q-img {
+      border-radius: 14px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; aspect-ratio: 1;
+    }
+    .q-img.a { background: linear-gradient(145deg, #EEF3FF, #DCE8FF); grid-column: 1 / -1; aspect-ratio: 2/1; }
+    .q-img.b { background: linear-gradient(145deg, #FFF8E7, #FFE9B0); }
+    .q-img.c { background: linear-gradient(145deg, #E6F9F1, #B8EDD3); }
+
+    .float-badge {
+      position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
+      background: white; border-radius: 12px; padding: 12px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      display: flex; align-items: center; gap: 10px;
+      white-space: nowrap; border: 1px solid var(--border);
+    }
+    .fb-icon { font-size: 1.4rem; }
+    .fb-text { font-size: 0.82rem; }
+    .fb-text strong { display: block; font-weight: 800; color: var(--dark); }
+    .fb-text span { color: var(--gray); }
+
+    .quality-points { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }
+    .qp {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 24px; border-radius: 14px;
+      border: 1.5px solid var(--border);
+      transition: all .25s;
+    }
+    .qp:hover { border-color: var(--blue); background: var(--blue-soft); }
+    .qp-icon {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    }
+    .qp-icon.blue { background: var(--blue-soft); }
+    .qp-icon.gold { background: var(--gold-light); }
+    .qp-icon.green { background: var(--green-soft); }
+    .qp h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .qp p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+
+    /* ─── CERTIFICATIONS ─── */
+    .cert-section { background: var(--light); }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px; margin-bottom: 48px;
+    }
+    .cert-card {
+      background: white; border-radius: var(--radius);
+      padding: 28px 20px; text-align: center;
+      border: 1.5px solid var(--border);
+      transition: all .25s;
+    }
+    .cert-card:hover { border-color: var(--green); box-shadow: 0 4px 20px rgba(0,184,107,0.1); }
+    .cert-logo { font-size: 2.2rem; margin-bottom: 10px; }
+    .cert-name { font-weight: 700; font-size: 0.92rem; margin-bottom: 4px; }
+    .cert-desc { font-size: 0.75rem; color: var(--gray); }
+
+    .country-strip {
+      background: white; border-radius: var(--radius);
+      padding: 28px 36px; border: 1.5px solid var(--border);
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .cs-label { font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+    .cs-flags { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .cs-flag { font-size: 1.6rem; }
+    .cs-more { font-size: 0.82rem; color: var(--gray); font-weight: 600; }
+
+    /* ─── PRIVATE LABEL ─── */
+    .privatelabel-section {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .pl-steps { display: flex; flex-direction: column; gap: 0; margin-top: 36px; }
+    .pl-step {
+      display: flex; gap: 20px; padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .pl-step:last-child { border-bottom: none; }
+    .pl-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--blue); color: white;
+      font-weight: 800; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pl-step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+    .pl-step p { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+
+    .pl-visual {
+      background: var(--dark); border-radius: 24px;
+      padding: 40px; display: flex; flex-direction: column;
+      align-items: center; gap: 20px; text-align: center;
+    }
+    .pl-brand-demo {
+      background: white; border-radius: 16px;
+      width: 100%; padding: 28px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .pl-product-icon { font-size: 4rem; }
+    .pl-brand-box {
+      background: var(--dark); border-radius: 8px;
+      padding: 8px 20px; color: white;
+      font-weight: 900; font-size: 1rem; letter-spacing: 1px;
+    }
+    .pl-arrow { color: rgba(255,255,255,0.4); font-size: 1.4rem; }
+    .pl-caption { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6; }
+    .pl-tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+    .pl-tag {
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8);
+      border-radius: 50px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
+    }
+
+    /* ─── SHIPPING ─── */
+    .shipping-section { background: var(--light); }
+    .shipping-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .ship-card {
+      background: white; border-radius: var(--radius);
+      padding: 30px 26px; border: 1.5px solid var(--border);
+      transition: all .25s;
+    }
+    .ship-card:hover { border-color: var(--blue); box-shadow: 0 8px 32px rgba(0,87,255,0.08); }
+    .ship-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+    .ship-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .ship-card p { font-size: 0.85rem; color: var(--gray); line-height: 1.65; }
+    .ship-highlight {
+      display: inline-block; margin-top: 12px;
+      background: var(--green-soft); color: var(--green);
+      border-radius: 50px; padding: 4px 12px; font-size: 0.75rem; font-weight: 700;
+    }
+
+    /* ─── WHY US ─── */
+    .why-section {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: white; text-align: center;
+    }
+    .why-section .section-label { color: var(--gold-light); }
+    .why-section .section-title { color: white; }
+    .why-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 2px; margin-top: 56px;
+      background: rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden;
+    }
+    .why-item {
+      padding: 36px 24px; background: rgba(255,255,255,0.04);
+      transition: background .25s; text-align: center;
+    }
+    .why-item:hover { background: rgba(255,255,255,0.08); }
+    .why-num { font-size: 2.4rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+    .why-label { font-size: 0.85rem; color: rgba(255,255,255,0.75); font-weight: 500; }
+
+    /* ─── CTA ─── */
+    .cta-section { padding: 100px 6%; text-align: center; }
+    .cta-inner {
+      max-width: 680px; margin: 0 auto;
+      background: var(--dark); border-radius: 24px;
+      padding: 64px 56px;
+    }
+    .cta-inner h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: white; margin-bottom: 16px; }
+    .cta-inner p { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 36px; line-height: 1.7; }
+    .cta-form { display: flex; gap: 12px; max-width: 460px; margin: 0 auto 20px; }
+    .cta-input {
+      flex: 1; padding: 14px 18px; border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08);
+      color: white; font-family: inherit; font-size: 0.9rem; outline: none;
+      transition: border .2s;
+    }
+    .cta-input::placeholder { color: rgba(255,255,255,0.35); }
+    .cta-input:focus { border-color: var(--blue); }
+    .btn-gold {
+      padding: 14px 28px; background: var(--gold); border-radius: 10px;
+      color: var(--dark); font-weight: 700; font-size: 0.95rem;
+      border: none; cursor: pointer; font-family: inherit; transition: all .2s;
+      white-space: nowrap;
+    }
+    .btn-gold:hover { background: var(--gold-light); }
+    .cta-note { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,0.65);
+      padding: 56px 6% 28px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-logo .logo-mark { width: 32px; height: 32px; font-size: 0.9rem; }
+    .footer-logo-text { font-size: 1.15rem; font-weight: 800; color: white; }
+    .footer-logo-text span { color: var(--blue); }
+    .footer-desc { font-size: 0.85rem; line-height: 1.7; margin-bottom: 20px; }
+    .footer-col h5 { font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { text-decoration: none; color: rgba(255,255,255,0.55); font-size: 0.83rem; transition: color .2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07); padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; flex-wrap: wrap; gap: 10px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1000px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .quality-section, .privatelabel-section { grid-template-columns: 1fr; }
+      .pain-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { padding: 100px 4% 60px; }
+      .section { padding: 60px 4%; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .cta-form { flex-direction: column; }
+      .cta-inner { padding: 40px 28px; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">EX</div>
+    <span class="logo-text">Exim<span>Hub</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#quality">Quality</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#private-label">Private Label</a></li>
+    <li><a href="#shipping">Shipping</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-flag">🌍 Ships Worldwide</span>
+    <a href="#contact" class="btn-nav">Request a Quote</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">🏆 Trusted by 500+ Importers Worldwide</div>
+    <h1>Every Problem<br/>an Importer Faces —<br/><em>Solved in One Place</em></h1>
+    <p class="hero-sub">
+      HD product photos. Full specifications. Global certifications. Private labeling. Instant shipping.
+      We've removed every obstacle standing between you and your perfect supply partner.
+    </p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Browse Products</a>
+      <a href="#contact" class="btn-outline">Get Free Catalog</a>
+    </div>
+    <div class="trust-row">
+      <div class="trust-item"><span class="trust-icon">✅</span> Verified Manufacturer</div>
+      <div class="trust-item"><span class="trust-icon">🌍</span> Ships to 180+ Countries</div>
+      <div class="trust-item"><span class="trust-icon">⚡</span> 24h Dispatch</div>
+      <div class="trust-item"><span class="trust-icon">🏷️</span> Private Label Ready</div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="product-showcase">
+      <div class="showcase-header">
+        <div class="dot-red"></div>
+        <div class="dot-yellow"></div>
+        <div class="dot-green"></div>
+        <span class="showcase-title">EximHub Product View</span>
+      </div>
+      <div class="showcase-product">
+        <div class="product-img-area">🔩</div>
+        <div class="product-info">
+          <span class="product-tag">✔ In Stock · Ships Today</span>
+          <div class="product-name">Hex Bolt Set — Grade 8.8</div>
+          <div class="product-spec">
+            Material: Alloy Steel · Finish: Zinc Plated<br/>
+            Size: M6–M24 · Thread: Full / Partial<br/>
+            Standard: DIN 931 / ISO 4014
+          </div>
+          <div class="product-badges">
+            <div class="p-badge">📷 48 HD Photos Available</div>
+            <div class="p-badge">📄 CE · ISO · RoHS Certified</div>
+            <div class="p-badge">🏷️ Private Label Available</div>
+            <div class="p-badge">📦 MOQ: 500 pcs · FOB/CIF</div>
+          </div>
+          <button class="product-cta">Request Quote</button>
+        </div>
+      </div>
+      <div class="showcase-footer">
+        <span class="sf-item">⭐ 4.9/5 (312 orders)</span>
+        <span class="sf-item">🚢 Ships to 180+ countries</span>
+        <span class="sf-item">⚡ 24h dispatch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="pain-section" id="why">
+  <div class="pain-label">Why Importers Choose EximHub</div>
+  <h2 class="pain-title">We've Solved Every Importer Headache</h2>
+  <p class="pain-sub">Stop wasting time on suppliers who can't deliver. Every problem you've faced before — we've already fixed it.</p>
+
+  <div class="pain-grid">
+    <div class="pain-item">
+      <div class="pain-problem">
+        <span class="cross">✗</span>
+        <span class="pain-q">"I can't judge quality from blurry, low-res photos."</span>
+      </div>
+      <div class="pain-arrow">↓</div>
+      <div class="pain-solution">
+        <span class="check-green">✓</span>
+        <span class="pain-ans">Every product has 30–60 professional HD photos from all angles, including macro shots, defect inspection, and real-use context.</span>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-problem">
+        <span class="cross">✗</span>
+        <span class="pain-q">"Specs are vague. I never know exactly what I'm getting."</span>
+      </div>
+      <div class="pain-arrow">↓</div>
+      <div class="pain-solution">
+        <span class="check-green">✓</span>
+        <span class="pain-ans">Full technical datasheets: dimensions, material grade, tolerances, finish, weight, packaging, standards — nothing hidden.</span>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-problem">
+        <span class="cross">✗</span>
+        <span class="pain-q">"My country has strict import regulations I can't navigate."</span>
+      </div>
+      <div class="pain-arrow">↓</div>
+      <div class="pain-solution">
+        <span class="check-green">✓</span>
+        <span class="pain-ans">We hold CE, ISO, FDA, RoHS, REACH, BIS, and 20+ certifications. We handle compliance documents so customs is never a problem.</span>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-problem">
+        <span class="cross">✗</span>
+        <span class="pain-q">"Shipping takes 60–90 days and I can't track anything."</span>
+      </div>
+      <div class="pain-arrow">↓</div>
+      <div class="pain-solution">
+        <span class="check-green">✓</span>
+        <span class="pain-ans">Orders dispatch in 24 hours. Real-time tracking from warehouse to your door. Sea, air, express — you choose the speed.</span>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-problem">
+        <span class="cross">✗</span>
+        <span class="pain-q">"I want to sell under my own brand, not the manufacturer's."</span>
+      </div>
+      <div class="pain-arrow">↓</div>
+      <div class="pain-solution">
+        <span class="check-green">✓</span>
+        <span class="pain-ans">Full private label service. Your logo, your packaging, your brand identity — on any product, any quantity from MOQ.</span>
+      </div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-problem">
+        <span class="cross">✗</span>
+        <span class="pain-q">"I've been scammed by fake suppliers with no accountability."</span>
+      </div>
+      <div class="pain-arrow">↓</div>
+      <div class="pain-solution">
+        <span class="check-green">✓</span>
+        <span class="pain-ans">We are a verified, registered manufacturer — not a middleman. Factory audits, sample orders, and escrow payment available.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section products-section" id="products">
+  <div class="section-header center">
+    <div class="section-label">Product Catalog</div>
+    <h2 class="section-title">Browse Our Products</h2>
+    <p class="section-sub">Every listing includes HD photography, full specifications, certifications, and real-time stock status.</p>
+  </div>
+  <div class="products-grid">
+
+    <div class="prod-card">
+      <div class="prod-img bg1">
+        🔩
+        <div class="cert-strip">
+          <span class="cert-pill">ISO</span>
+          <span class="cert-pill">DIN</span>
+        </div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">Fasteners & Hardware</div>
+        <div class="prod-name">Hex Bolt Set — Grade 8.8</div>
+        <div class="prod-spec">M6–M24 · Zinc Plated · Alloy Steel · DIN 931 standard · Full & partial thread options</div>
+        <div class="prod-meta">
+          <span class="prod-moq">MOQ: <strong>500 pcs</strong></span>
+          <a href="#contact" class="prod-action">Get Quote →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img bg2">
+        🔧
+        <div class="cert-strip">
+          <span class="cert-pill">CE</span>
+          <span class="cert-pill">RoHS</span>
+        </div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">Tools & Equipment</div>
+        <div class="prod-name">Industrial Torque Wrench Set</div>
+        <div class="prod-spec">1/4" · 3/8" · 1/2" drive · 5–340 Nm range · Chrome Vanadium steel · Case included</div>
+        <div class="prod-meta">
+          <span class="prod-moq">MOQ: <strong>50 sets</strong></span>
+          <a href="#contact" class="prod-action">Get Quote →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img bg3">
+        🪣
+        <div class="cert-strip">
+          <span class="cert-pill">FDA</span>
+          <span class="cert-pill">BPA Free</span>
+        </div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">Plastics & Packaging</div>
+        <div class="prod-name">HDPE Industrial Containers</div>
+        <div class="prod-spec">5L / 10L / 20L · Food-grade HDPE · UV resistant · Stackable design · Custom color & print</div>
+        <div class="prod-meta">
+          <span class="prod-moq">MOQ: <strong>200 pcs</strong></span>
+          <a href="#contact" class="prod-action">Get Quote →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img bg4">
+        🧵
+        <div class="cert-strip">
+          <span class="cert-pill">OEKO-TEX</span>
+          <span class="cert-pill">GOTS</span>
+        </div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">Textiles & Fabric</div>
+        <div class="prod-name">100% Organic Cotton Canvas</div>
+        <div class="prod-spec">280 GSM · Width: 150cm · Natural / Bleached · OEKO-TEX certified · Roll or cut-to-length</div>
+        <div class="prod-meta">
+          <span class="prod-moq">MOQ: <strong>500 meters</strong></span>
+          <a href="#contact" class="prod-action">Get Quote →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img bg5">
+        💡
+        <div class="cert-strip">
+          <span class="cert-pill">CE</span>
+          <span class="cert-pill">UL</span>
+        </div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">Electrical & Lighting</div>
+        <div class="prod-name">LED Panel Light — Commercial</div>
+        <div class="prod-spec">60×60cm · 40W · 4000K / 6500K · IP44 · Dimmable · 50,000h lifespan · Private label available</div>
+        <div class="prod-meta">
+          <span class="prod-moq">MOQ: <strong>100 units</strong></span>
+          <a href="#contact" class="prod-action">Get Quote →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img bg6">
+        🪴
+        <div class="cert-strip">
+          <span class="cert-pill">ISO 9001</span>
+        </div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">Home & Garden</div>
+        <div class="prod-name">Premium Grow Bags — Heavy Duty</div>
+        <div class="prod-spec">5 / 10 / 20 / 30 gallon · 600D fabric · With handles · Washable & reusable · Custom branding</div>
+        <div class="prod-meta">
+          <span class="prod-moq">MOQ: <strong>300 pcs</strong></span>
+          <a href="#contact" class="prod-action">Get Quote →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUALITY -->
+<section class="section" id="quality">
+  <div class="quality-section">
+    <div class="quality-imgs">
+      <div class="q-img a">📸</div>
+      <div class="q-img b">🔬</div>
+      <div class="q-img c">📊</div>
+      <div class="float-badge">
+        <span class="fb-icon">📷</span>
+        <div class="fb-text">
+          <strong>30–60 HD Photos per Product</strong>
+          <span>Every angle. Every detail. No surprises.</span>
+        </div>
+      </div>
+    </div>
+    <div class="quality-right">
+      <div class="section-label">Product Quality</div>
+      <h2 class="section-title">See It Before You Buy It — For Real</h2>
+      <p class="section-sub">We know what happens when you order based on a single blurry thumbnail. That's not how we work.</p>
+      <div class="quality-points">
+        <div class="qp">
+          <div class="qp-icon blue">📷</div>
+          <div>
+            <h3>Professional HD Photography</h3>
+            <p>Every product is shot in our in-house studio with 30–60 high-resolution images — all angles, close-ups, scale references, and packaging shots included.</p>
+          </div>
+        </div>
+        <div class="qp">
+          <div class="qp-icon gold">📋</div>
+          <div>
+            <h3>Complete Technical Datasheets</h3>
+            <p>Dimensions, tolerances, material grades, surface finish, weight, load ratings, chemical composition — all documented and downloadable as PDF.</p>
+          </div>
+        </div>
+        <div class="qp">
+          <div class="qp-icon green">🔬</div>
+          <div>
+            <h3>Pre-Shipment Quality Inspection</h3>
+            <p>Every batch passes a 3-step inspection: incoming material check, in-process QC, and final pre-shipment report available to you before goods leave the factory.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="section cert-section" id="certifications">
+  <div class="section-header center">
+    <div class="section-label">Compliance & Certifications</div>
+    <h2 class="section-title">We Clear Customs. You Don't Worry.</h2>
+    <p class="section-sub">Our products hold certifications for the world's strictest import markets. Every document provided with every shipment.</p>
+  </div>
+  <div class="cert-grid">
+    <div class="cert-card"><div class="cert-logo">🇪🇺</div><div class="cert-name">CE Marking</div><div class="cert-desc">European conformity for EU market</div></div>
+    <div class="cert-card"><div class="cert-logo">🏅</div><div class="cert-name">ISO 9001:2015</div><div class="cert-desc">Quality management system</div></div>
+    <div class="cert-card"><div class="cert-logo">♻️</div><div class="cert-name">RoHS</div><div class="cert-desc">Hazardous substance restriction</div></div>
+    <div class="cert-card"><div class="cert-logo">🌿</div><div class="cert-name">REACH</div><div class="cert-desc">EU chemical safety regulation</div></div>
+    <div class="cert-card"><div class="cert-logo">🇺🇸</div><div class="cert-name">FDA Registered</div><div class="cert-desc">US Food & Drug Administration</div></div>
+    <div class="cert-card"><div class="cert-logo">🏭</div><div class="cert-name">BIS Certified</div><div class="cert-desc">Bureau of Indian Standards</div></div>
+    <div class="cert-card"><div class="cert-logo">🌱</div><div class="cert-name">OEKO-TEX</div><div class="cert-desc">Textile safety standard</div></div>
+    <div class="cert-card"><div class="cert-logo">⚡</div><div class="cert-name">UL Listed</div><div class="cert-desc">North American safety standard</div></div>
+  </div>
+
+  <div class="country-strip">
+    <span class="cs-label">🌍 We ship to 180+ countries including:</span>
+    <div class="cs-flags">
+      <span class="cs-flag" title="USA">🇺🇸</span>
+      <span class="cs-flag" title="UK">🇬🇧</span>
+      <span class="cs-flag" title="Germany">🇩🇪</span>
+      <span class="cs-flag" title="UAE">🇦🇪</span>
+      <span class="cs-flag" title="Saudi Arabia">🇸🇦</span>
+      <span class="cs-flag" title="Australia">🇦🇺</span>
+      <span class="cs-flag" title="Canada">🇨🇦</span>
+      <span class="cs-flag" title="France">🇫🇷</span>
+      <span class="cs-flag" title="Japan">🇯🇵</span>
+      <span class="cs-flag" title="Brazil">🇧🇷</span>
+      <span class="cs-flag" title="Singapore">🇸🇬</span>
+      <span class="cs-flag" title="Netherlands">🇳🇱</span>
+    </div>
+    <span class="cs-more">+168 more countries</span>
+  </div>
+</section>
+
+<!-- PRIVATE LABEL -->
+<section class="section" id="private-label">
+  <div class="privatelabel-section">
+    <div>
+      <div class="section-label">Private Labeling</div>
+      <h2 class="section-title">Your Brand. Our Factory.</h2>
+      <p class="section-sub">Build your own product line without owning a factory. We manufacture, you brand. It's that simple.</p>
+      <div class="pl-steps">
+        <div class="pl-step">
+          <div class="pl-num">1</div>
+          <div>
+            <h3>Choose Your Product</h3>
+            <p>Pick from our catalog or bring your own spec sheet. We'll match or manufacture to your requirements.</p>
+          </div>
+        </div>
+        <div class="pl-step">
+          <div class="pl-num">2</div>
+          <div>
+            <h3>Send Your Brand Assets</h3>
+            <p>Share your logo, brand colors, and packaging design. Our design team can create packaging if you need it.</p>
+          </div>
+        </div>
+        <div class="pl-step">
+          <div class="pl-num">3</div>
+          <div>
+            <h3>Approve the Sample</h3>
+            <p>We produce a branded sample and ship it to you for approval. No production starts without your sign-off.</p>
+          </div>
+        </div>
+        <div class="pl-step">
+          <div class="pl-num">4</div>
+          <div>
+            <h3>Receive Branded Products</h3>
+            <p>Full order dispatched within 24h of production completion. Arrives ready to sell under your brand.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pl-visual">
+      <div class="pl-brand-demo">
+        <div class="pl-product-icon">📦</div>
+        <div style="font-size: 0.75rem; color: var(--gray); font-weight: 600;">Our Product +</div>
+        <div class="pl-brand-box">YOUR BRAND</div>
+        <div style="font-size: 0.75rem; color: var(--gray);">= Product ready to sell</div>
+      </div>
+      <span class="pl-arrow">↓</span>
+      <p class="pl-caption">No factory ownership needed.<br/>No minimum runs that break your budget.<br/>Your brand, delivered worldwide.</p>
+      <div class="pl-tags">
+        <span class="pl-tag">Custom Logo</span>
+        <span class="pl-tag">Custom Packaging</span>
+        <span class="pl-tag">Custom Color</span>
+        <span class="pl-tag">Low MOQ</span>
+        <span class="pl-tag">Full Compliance</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHIPPING -->
+<section class="section shipping-section" id="shipping">
+  <div class="section-header center">
+    <div class="section-label">Logistics</div>
+    <h2 class="section-title">Fast. Tracked. Reliable.</h2>
+    <p class="section-sub">Instant dispatch. Real-time tracking. Multiple shipping modes. You decide the speed and budget.</p>
+  </div>
+  <div class="shipping-grid">
+    <div class="ship-card">
+      <span class="ship-icon">⚡</span>
+      <h3>24-Hour Dispatch</h3>
+      <p>In-stock orders leave our warehouse within 24 hours of payment confirmation — no excuses, no delays.</p>
+      <span class="ship-highlight">For all in-stock items</span>
+    </div>
+    <div class="ship-card">
+      <span class="ship-icon">✈️</span>
+      <h3>Express Air Freight</h3>
+      <p>Urgent shipments via DHL, FedEx, or UPS Express. Delivery in 3–7 business days to most destinations worldwide.</p>
+      <span class="ship-highlight">3–7 Days Worldwide</span>
+    </div>
+    <div class="ship-card">
+      <span class="ship-icon">🚢</span>
+      <h3>Sea Freight (FCL / LCL)</h3>
+      <p>Cost-effective ocean shipping for large orders. We handle booking, BL, packing list, and all export paperwork.</p>
+      <span class="ship-highlight">Best for bulk orders</span>
+    </div>
+    <div class="ship-card">
+      <span class="ship-icon">📍</span>
+      <h3>Real-Time Tracking</h3>
+      <p>From our warehouse to your door — live shipment status, customs clearance updates, and delivery notifications.</p>
+      <span class="ship-highlight">Full visibility always</span>
+    </div>
+    <div class="ship-card">
+      <span class="ship-icon">📄</span>
+      <h3>All Documents Included</h3>
+      <p>Commercial invoice, packing list, certificate of origin, test reports, insurance — everything you need for customs clearance.</p>
+      <span class="ship-highlight">Zero paperwork stress</span>
+    </div>
+    <div class="ship-card">
+      <span class="ship-icon">🛡️</span>
+      <h3>Cargo Insurance</h3>
+      <p>All shipments can be fully insured. If goods are damaged or lost in transit, we handle the claim and replacement.</p>
+      <span class="ship-highlight">100% protected</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US NUMBERS -->
+<section class="section why-section">
+  <div class="section-label">Our Track Record</div>
+  <h2 class="section-title" style="color:white; max-width:600px; margin: 0 auto 8px;">Numbers That Prove We Deliver</h2>
+  <div class="why-grid">
+    <div class="why-item"><div class="why-num">500+</div><div class="why-label">Active Import Partners</div></div>
+    <div class="why-item"><div class="why-num">180+</div><div class="why-label">Countries We Ship To</div></div>
+    <div class="why-item"><div class="why-num">24h</div><div class="why-label">Average Dispatch Time</div></div>
+    <div class="why-item"><div class="why-num">20+</div><div class="why-label">Certifications Held</div></div>
+    <div class="why-item"><div class="why-num">98.7%</div><div class="why-label">On-Time Delivery Rate</div></div>
+    <div class="why-item"><div class="why-num">0</div><div class="why-label">Customs Rejections Ever</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <h2>Ready to Source Without the Stress?</h2>
+    <p>Tell us what you need. We'll send you a full product catalog, specs, certifications, and pricing within 24 hours — free, no obligation.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" placeholder="Your business email" />
+      <button class="btn-gold">Get Free Catalog</button>
+    </div>
+    <p class="cta-note">No spam. No sales pressure. Just the information you need to make a decision.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <div class="logo-mark">EX</div>
+        <span class="footer-logo-text">Exim<span>Hub</span></span>
+      </div>
+      <p class="footer-desc">Your trusted manufacturing and export partner. We solve every problem importers face — quality, compliance, shipping, and branding — all under one roof.</p>
+      <div style="font-size: 0.82rem;">🌍 Ships to 180+ Countries &nbsp;·&nbsp; ⚡ 24h Dispatch &nbsp;·&nbsp; 🏷️ Private Label Ready</div>
+    </div>
+    <div class="footer-col">
+      <h5>Products</h5>
+      <ul>
+        <li><a href="#">Fasteners & Hardware</a></li>
+        <li><a href="#">Tools & Equipment</a></li>
+        <li><a href="#">Textiles & Fabric</a></li>
+        <li><a href="#">Electrical & Lighting</a></li>
+        <li><a href="#">View All Categories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#">Private Labeling</a></li>
+        <li><a href="#">Custom Manufacturing</a></li>
+        <li><a href="#">Quality Inspection</a></li>
+        <li><a href="#">Shipping & Logistics</a></li>
+        <li><a href="#">Compliance Docs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About EximHub</a></li>
+        <li><a href="#">Certifications</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Request a Quote</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 EximHub. All rights reserved.</span>
+    <span>Trusted Manufacturer & Export Partner · Ships Worldwide 🌍</span>
+  </div>
+</footer>
+
+</body>
+</html>
