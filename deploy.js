@@ -31,7 +31,7 @@ const CONN = {
 };
 
 const REMOTE_TMP = "/tmp/importwiz-deploy";
-const OUT_DIR = path.join(__dirname, "out");
+const OUT_DIR = path.join(__dirname, "site");
 
 function ssh(client, cmd) {
   return new Promise((res, rej) => {
@@ -154,12 +154,8 @@ async function run() {
     console.log("📤 Uploading files...");
     await uploadDir(client, OUT_DIR, REMOTE_TMP);
 
-    // Backup current site and swap
-    console.log("\n🔄 Swapping in new files...");
-    await ssh(client, `
-      mkdir -p ${WEB_ROOT}_backup_$(date +%Y%m%d_%H%M%S) &&
-      cp -r ${WEB_ROOT}/. ${WEB_ROOT}_backup_$(date +%Y%m%d_%H%M%S)/ 2>/dev/null || true
-    `);
+    // Merge new files into web root (preserves images/ and other existing files)
+    console.log("\n🔄 Merging new files...");
     await ssh(client, `cp -r ${REMOTE_TMP}/. ${WEB_ROOT}/`);
     await ssh(client, `chown -R www-data:www-data ${WEB_ROOT}/ 2>/dev/null || true`);
 

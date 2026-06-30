@@ -13,9 +13,12 @@
 # testing
 /coverage
 
-# next.js
+# next.js build artifacts (not used — site is in /site)
 /.next/
 /out/
+/node_modules
+next-env.d.ts
+*.tsbuildinfo
 
 # production
 /build
